@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <Windows.h>
-#include <math.h>
 
-//Start of Austin's Application
+//Start of Soundboard Application
 
 ////////////////////////////////////////
 //									  //
@@ -20,8 +19,8 @@ int playCalcAgain = 1;    // integer used to set the value to calculate another 
 int programChoice;		  // integer used to set the value for which program the user wants to use
 int firstNum;		  // integer used to store the first number inputted by the user for Calculator
 int secondNum;		  // integer used to store the second number inputted by the user for Calculator
-int equationChoice; // Integer used to set the value for which equation choice
-float answer; // float to store the answer to the equation given
+int equationChoice;
+float answer;
 
 int mainMenu(void)
 {
@@ -30,29 +29,29 @@ int mainMenu(void)
 		printf("                        *******************************************************************\n");
 		printf("                                              Welcome to Austin's Program!\n ");
 		printf("                                                 Current Version: 1.2\n");
-		printf("                                  At the moment there are 2 programs that can be used!\n");           //Welcome Menu for Main Menu
+		printf("                                  At the moment there are 2 programs that can be used!\n");
 		printf("                                               1.) Austin's Soundboard\n");
 		printf("                                               2.) Austin's Calculator\n");
 		printf("                        *******************************************************************\n\n");
 		printf("Which program would you like to use?(1-2)(3 to Exit Program): ");
 		scanf_s("%d", &programChoice);
 
-		if (programChoice == 1) // If user inputs a '1' it will go to soundBoardMenu function      
-			soundBoardMenu();  
-		                            
-		if (programChoice == 2) // If user inputs a '2' it will go to calculatorMenu function    
+		if (programChoice == 1)
+			soundBoardMenu();
+
+		if (programChoice == 2)
 			calculatorMenu();
 
-		if (programChoice == 3) // If user inputs a '3' it will exit the program 
+		if (programChoice == 3)
 			return 0;
 
 
-	} while (playSoundAgain == 2 || playCalcAgain == 2); // If a user inputs a '2' in either application it will return them to the main menu
+	} while (playSoundAgain == 2 || playCalcAgain == 2);
 }
 
 int main(void) 
 {
-	mainMenu(); // When program is opened, call function mainMenu
+	mainMenu();
 }
 	
 int soundBoardMenu(void)
@@ -65,7 +64,7 @@ int soundBoardMenu(void)
 	printf("                                        4.) Windows XP Notification Sound\n");						//  (The Spacing is to center the text in console)   //
 	printf("                                          5.) Windows XP Chimes Sounds\n");						    //                                                   //
 	printf("                       *******************************************************************\n\n");	///////////////////////////////////////////////////////
-	sound();
+	sound(NULL);
 }
 
 int sound(void)
@@ -121,101 +120,88 @@ int calculatorMenu(void)
 	printf("                                      Welcome to Austin's Quick Calculator!\n");						//				Welcome Menu for Calculator          //
 	printf("                              This program is very simple. First choose the equation\n");				//			And the simple instructions for use      //
 	printf("                       type you are wanting to calculate than follow the prompts from there!\n");       ///////////////////////////////////////////////////////
-	calculatorOperation();
+	calculatorOperation(NULL);
 }
 int calculatorOperation(void)
 {
 	do //this is the start of the loop for the calculator. if a user decides to do another calculation it will start back here
 	{
-		printf("                        *******************************************************************\n");    ////////////////////////////////////////////////////////////////
-		printf("                        *                         Calculation Types                       *\n");    //                                                            //
-		printf("                        *           [1] Addition                    [2] Subtraction       *\n");    //            Calculation Types Menu for Calculator           //
-		printf("                        *           [3] Multiplication              [4] Division          *\n");    //          Each Type is assigned a number between 1-6        //
-		printf("                        *           [5] Square Root                 [6] Squared           *\n");    //                                                            //
-		printf("                        *                                                                 *\n");    ///////////////////////////////////////////////////////////////
-		printf("                        *******************************************************************\n");    
+		printf("                        *******************************************************************\n");
+		printf("                        *                         Calculation Types                       *\n");
+		printf("                        *           [1] Addition                    [2] Subtraction       *\n");
+		printf("                        *           [3] Multiplication              [4] Division          *\n");
+		printf("                        *           [5] Square Root                 [6] Squared           *\n");
+		printf("                        *                                                                 *\n");
+		printf("                        *******************************************************************\n");
 
-		printf("Which Calculation Type would you like to use? (1-6): "); // Prompts the user for an input between (1-6)
+		printf("Which Calculation Type would you like to use?: ");
 		scanf_s("%d", &equationChoice); //scans the equation the user chose
 
-																							   ////////////////////////////////////////////////////////////////////////////////////////
-		while (equationChoice < 1)                                                             //                                                                                    //
-		{                                                                                      //  This 'while' statement detects if the number entered in was less than 1.          //
-			printf("That is not a valid calculation option. Please enter again! (1-6): ");     //  If the number was less than 1 it will repromt the user asking for a valid number  //
-			scanf_s("%d", &equationChoice);                                                    //                                                                                    //
-		}                                                                                      ////////////////////////////////////////////////////////////////////////////////////////
 
-		while (equationChoice > 5)                                                             //////////////////////////////////////////////////////////////////////////////////////////
-		{                                                                                      //                                                                                      //
-			printf("That is not a valid calculation option. Please enter again! (1-6): ");     //  This 'while' statement detects if the number entered in was greater than 5.         //
-			scanf_s("%d", &equationChoice);                                                    //  If the number was greater than 5 it will repromt the user asking for a valid number //
-		}                                                                                      //                                                                                      //
-																							   //////////////////////////////////////////////////////////////////////////////////////////
+		while (equationChoice < 1)
+		{
+			printf("That is not a valid sound option. Please enter again! (1-5): ");
+			scanf_s("%d", &equationChoice);
+		}
+
+		while (equationChoice > 6)
+		{
+			printf("That is not a valid sound option. Please enter again! (1-5): ");
+			scanf_s("%d", &equationChoice);
+		}
 
 
 		if (equationChoice == 1)
-		{
-			printf("What is your first number?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
+			printf("What is your first number?: ");
+			scanf_s("%d", &firstNum); //scans the equation the user chose
 			printf("What is your second number?: ");
-			scanf_s("%d", &secondNum); //scans for the second number the user inputted
-			answer = firstNum + secondNum; // answer is set to this operation
-			printf("Answer: %d + %d = %.1f\n", firstNum, secondNum, answer); // Prints the Answer of the calculation
-			playCalc(NULL); // call the playCalc Function
-		}
+			scanf_s("%d", &secondNum); //scans the equation the user chose
+			answer = firstNum + secondNum;
+			printf("Answer: %d + %d = %.1f\n", firstNum, secondNum, answer);
+			playCalc(NULL);
 
-		else if (equationChoice == 2)
-		{
-			printf("What is your first number?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
-			printf("What is your second number?: "); // Prompts User for an integer
-			scanf_s("%d", &secondNum); //scans for the second number the user inputted
-			answer = firstNum - secondNum; // answer is set to this operation
-			printf("Answer: %d - %d = %.1f\n", firstNum, secondNum, answer); // Prints the Answer of the calculation
-			playCalc(NULL); // call the playCalc Function
-		}
+		if (equationChoice == 2)
+			printf("What is your first number?: ");
+			scanf_s("%d", &firstNum); //scans the equation the user chose
+			printf("What is your second number?: ");
+			scanf_s("%d", &secondNum); //scans the equation the user chose
+			answer = firstNum - secondNum;
+			printf("Answer: %d - %d = %.1f\n", firstNum, secondNum, answer);
+			playCalc(NULL);
 
-		else if (equationChoice == 3)
-		{
-			printf("What is your first number?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
-			printf("What is your second number?: "); // Prompts User for an integer
-			scanf_s("%d", &secondNum); //scans for the second number the user inputted
-			answer = firstNum * secondNum; // answer is set to this operation
-			printf("Answer: %d * %d = %.1f\n", firstNum, secondNum, answer); // Prints the Answer of the calculation
-			playCalc(NULL); // call the playCalc Function
-		}
+		if (equationChoice == 3)
+			printf("What is your first number?: ");
+			scanf_s("%d", &firstNum); //scans the equation the user chose
+			printf("What is your second number?: ");
+			scanf_s("%d", &secondNum); //scans the equation the user chose
+			answer = firstNum * secondNum;
+			printf("Answer: %d * %d = %.1f\n", firstNum, secondNum, answer);
+			playCalc(NULL);
 
-		else if (equationChoice == 4)
-		{
-			printf("What is your first number?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
-			printf("What is your second number?: "); // Prompts User for an integer
-			scanf_s("%d", &secondNum); //scans for the second number the user inputted
-			answer = (float)firstNum / (float)secondNum; // answer is set to this operation
-			printf("Answer: %d / %d = %.1f\n", firstNum, secondNum, answer); // Prints the Answer of the calculation
-			playCalc(NULL); // call the playCalc Function
-		}
+		if (equationChoice == 4)
+			printf("What is your first number?: ");
+			scanf_s("%d", &firstNum); //scans the equation the user chose
+			printf("What is your second number?: ");
+			scanf_s("%d", &secondNum); //scans the equation the user chose
+			answer = (float)firstNum / (float)secondNum;
+			printf("Answer: %d / %d = %.1f\n", firstNum, secondNum, answer);
+			playCalc(NULL);
 
-		else if (equationChoice == 5)
-		{
-			printf("What is the number you want to find the square root of?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
-			answer = sqrt(firstNum); // answer is set to this operation
-			printf("Answer: Square root of %d = %.1f\n", firstNum, answer); // Prints the Answer of the calculation
-			playCalc(NULL); // call the playCalc Function
-		}
+		if (equationChoice == 5)
+			printf("What is the number you want to find the square root of?: ");
+			scanf_s("%d", &firstNum); //scans the equation the user chose
+			answer = sqrt((float)firstNum);
+			printf("Answer: Squareroot of %d = %.1f\n", firstNum, answer);
+			playCalc(NULL);
 
-		else if (equationChoice == 6)
-		{
-			printf("What is the number you would like to square?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
-			answer = firstNum * firstNum; // answer is set to this operation
-			printf("Answer: %d Squared = %.1f\n", firstNum, answer); // Prints the Answer of the calculation
-			playCalc(NULL); // call the playCalc Function
-		}
+		if (equationChoice == 6)
+			printf("What is the number you would like to square?: ");
+			scanf_s("%d", &firstNum); //scans the equation the user chose
+			answer = firstNum * firstNum;
+			printf("Answer: %d Squared = %.1f\n", firstNum, answer);
+			playCalc(NULL);
 				
-	} while (playCalcAgain == 1); // If a user inputs '1' it will start this do while loop again.
+	} while (playCalcAgain == 1);
 }
 		int playCalc(void)
 		{
