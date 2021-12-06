@@ -8,23 +8,32 @@
 //									  //
 //	    Author: Austin Ritchie		  //
 //		   Class: ITT-310			  //
-//		   Date: 10/12/2021			  //
+//		   Date: 12/3/2021			  //
 //                                    //
 //                                    //
 ///////////////////////////////////////
 
+union soundboardData {
+	int soundChoice; // integer used to store a number 1-5 for the song choice 
+	int playSoundAgain; // integer used to set the value to play another sound when prompted
+};
 
-int soundChoice; // integer used to store a number 1-5 for the song choice 
-int playSoundAgain = 1;    // integer used to set the value to play another sound when prompted
-int playCalcAgain = 1;    // integer used to set the value to calculate another problem when prompted
+union calculatorData {
+	int playCalcAgain; // integer used to set the value to calculate another problem when prompted
+	int firstNum; // integer used to store the first number inputted by the user for Calculator
+	int secondNum; // integer used to store the second number inputted by the user for Calculator
+	int equationChoice; // Integer used to set the value for which equation choice
+	float answer; // float to store the answer to the equation given
+
+};
+
 int programChoice;		  // integer used to set the value for which program the user wants to use
-int firstNum;		  // integer used to store the first number inputted by the user for Calculator
-int secondNum;		  // integer used to store the second number inputted by the user for Calculator
-int equationChoice; // Integer used to set the value for which equation choice
-float answer; // float to store the answer to the equation given
 
 int mainMenu(void)
 {
+	union soundboardData data;
+	union calculatorData calc;
+
 	do
 	{
 		printf("                        *******************************************************************\n");
@@ -47,7 +56,7 @@ int mainMenu(void)
 			return 0;
 
 
-	} while (playSoundAgain == 2 || playCalcAgain == 2); // If a user inputs a '2' in either application it will return them to the main menu
+	} while (data.playSoundAgain == 2 || calc.playCalcAgain == 2); // If a user inputs a '2' in either application it will return them to the main menu
 }
 
 int main(void) 
@@ -70,50 +79,53 @@ int soundBoardMenu(void)
 
 int sound(void)
 {
+	union soundboardData data;
+	data.playSoundAgain = 1;
+
 	do //this is the start of the loop for the Soundboard. if a user decides to play another song it will start back here
 	{
 		printf("What sound effect would you like to hear? (1-5): "); //Prompts the user to pick a sound with the associated number
 
-		scanf_s("%d", &soundChoice); //scans the number the user chose
+		scanf_s("%d", &data.soundChoice); //scans the number the user chose
 																							   ////////////////////////////////////////////////////////////////////////////////////////
-		while (soundChoice < 1)                                                                //                                                                                    //
+		while (data.soundChoice < 1)                                                           //                                                                                    //
 		{                                                                                      //  This 'while' statement detects if the number entered in was less than 1.          //
 			printf("That is not a valid sound option. Please enter again! (1-5): ");           //  If the number was less than 1 it will repromt the user asking for a valid number  //
-			scanf_s("%d", &soundChoice);                                                       //                                                                                    //
+			scanf_s("%d", &data.soundChoice);                                                  //                                                                                    //
 		}                                                                                      ////////////////////////////////////////////////////////////////////////////////////////
 
-		while (soundChoice > 5)                                                                //////////////////////////////////////////////////////////////////////////////////////////
+		while (data.soundChoice > 5)                                                            //////////////////////////////////////////////////////////////////////////////////////////
 		{                                                                                      //                                                                                      //
 			printf("That is not a valid sound option. Please enter again! (1-5): ");           //  This 'while' statement detects if the number entered in was greater than 5.         //
-			scanf_s("%d", &soundChoice);                                                       //  If the number was greater than 5 it will repromt the user asking for a valid number //
+			scanf_s("%d", &data.soundChoice);                                                  //  If the number was greater than 5 it will repromt the user asking for a valid number //
 		}                                                                                      //                                                                                      //
 																							   //////////////////////////////////////////////////////////////////////////////////////////
-		if (soundChoice == 1)
+		if (data.soundChoice == 1)
 			PlaySound(TEXT("startup.wav"), NULL, SND_FILENAME | SND_SYNC);  //if the number inputted was '1' it will play this sound which is associated with 1.
 
 
-		if (soundChoice == 2)
+		if (data.soundChoice == 2)
 			PlaySound(TEXT("critical.wav"), NULL, SND_FILENAME | SND_SYNC); //if the number inputted was '2' it will play this sound which is associated with 2.
 
 
-		if (soundChoice == 3)
+		if (data.soundChoice == 3)
 			PlaySound(TEXT("tada.wav"), NULL, SND_FILENAME | SND_SYNC); //if the number inputted was '3' it will play this sound which is associated with 3.
 
 
-		if (soundChoice == 4)
+		if (data.soundChoice == 4)
 			PlaySound(TEXT("notify.wav"), NULL, SND_FILENAME | SND_SYNC); //if the number inputted was '4' it will play this sound which is associated with 4.
 
 
-		if (soundChoice == 5)
+		if (data.soundChoice == 5)
 			PlaySound(TEXT("chimes.wav"), NULL, SND_FILENAME | SND_SYNC); //if the number inputted was '5' it will play this sound which is associated with 5.
 
 
 																						///////////////////////////////////////////////////////////////////////////////
 		               																	//                                                                           //
 		printf("Do you want to play another sound? (1 = Yes/ 2 = Back to Main Menu): ");//        Prompts the user if they would like to play another sound          //
-		scanf_s("%d", &playSoundAgain);													//	If the user inputs a 1 it will go back to the beginning of the 'do' loop // 
+		scanf_s("%d", &data.playSoundAgain);											//	If the user inputs a 1 it will go back to the beginning of the 'do' loop // 
 																						//			If the user inputs a 2 it will go back to the main menu			 //
-	} while (playSoundAgain == 1);														///////////////////////////////////////////////////////////////////////////////
+	} while (data.playSoundAgain == 1);													///////////////////////////////////////////////////////////////////////////////
 }
 int calculatorMenu(void)
 {
@@ -125,6 +137,9 @@ int calculatorMenu(void)
 }
 int calculatorOperation(void)
 {
+	union calculatorData calc;
+
+
 	do //this is the start of the loop for the calculator. if a user decides to do another calculation it will start back here
 	{
 		printf("                        *******************************************************************\n");    ////////////////////////////////////////////////////////////////
@@ -136,90 +151,91 @@ int calculatorOperation(void)
 		printf("                        *******************************************************************\n");    
 
 		printf("Which Calculation Type would you like to use? (1-6): "); // Prompts the user for an input between (1-6)
-		scanf_s("%d", &equationChoice); //scans the equation the user chose
+		scanf_s("%d", &calc.equationChoice); //scans the equation the user chose
 
 																							   ////////////////////////////////////////////////////////////////////////////////////////
-		while (equationChoice < 1)                                                             //                                                                                    //
+		while (calc.equationChoice < 1)                                                        //                                                                                    //
 		{                                                                                      //  This 'while' statement detects if the number entered in was less than 1.          //
 			printf("That is not a valid calculation option. Please enter again! (1-6): ");     //  If the number was less than 1 it will repromt the user asking for a valid number  //
-			scanf_s("%d", &equationChoice);                                                    //                                                                                    //
+			scanf_s("%d", &calc.equationChoice);                                               //                                                                                    //
 		}                                                                                      ////////////////////////////////////////////////////////////////////////////////////////
 
-		while (equationChoice > 5)                                                             //////////////////////////////////////////////////////////////////////////////////////////
+		while (calc.equationChoice > 5)                                                        //////////////////////////////////////////////////////////////////////////////////////////
 		{                                                                                      //                                                                                      //
 			printf("That is not a valid calculation option. Please enter again! (1-6): ");     //  This 'while' statement detects if the number entered in was greater than 5.         //
-			scanf_s("%d", &equationChoice);                                                    //  If the number was greater than 5 it will repromt the user asking for a valid number //
+			scanf_s("%d", &calc.equationChoice);                                               //  If the number was greater than 5 it will repromt the user asking for a valid number //
 		}                                                                                      //                                                                                      //
 																							   //////////////////////////////////////////////////////////////////////////////////////////
 
 
-		if (equationChoice == 1)
+		if (calc.equationChoice == 1)
 		{
 			printf("What is your first number?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
+			scanf_s("%d", &calc.firstNum); //scans for the first number the user inputted
 			printf("What is your second number?: ");
-			scanf_s("%d", &secondNum); //scans for the second number the user inputted
-			answer = firstNum + secondNum; // answer is set to this operation
-			printf("Answer: %d + %d = %.1f\n", firstNum, secondNum, answer); // Prints the Answer of the calculation
+			scanf_s("%d", &calc.secondNum); //scans for the second number the user inputted
+			calc.answer = calc.firstNum + calc.secondNum; // answer is set to this operation
+			printf("Answer: %d + %d = %.1f\n", calc.firstNum, calc.secondNum, calc.answer); // Prints the Answer of the calculation
 			playCalc(NULL); // call the playCalc Function
 		}
 
-		else if (equationChoice == 2)
+		else if (calc.equationChoice == 2)
 		{
 			printf("What is your first number?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
+			scanf_s("%d", &calc.firstNum); //scans for the first number the user inputted
 			printf("What is your second number?: "); // Prompts User for an integer
-			scanf_s("%d", &secondNum); //scans for the second number the user inputted
-			answer = firstNum - secondNum; // answer is set to this operation
-			printf("Answer: %d - %d = %.1f\n", firstNum, secondNum, answer); // Prints the Answer of the calculation
+			scanf_s("%d", &calc.secondNum); //scans for the second number the user inputted
+			calc.answer = calc.firstNum - calc.secondNum; // answer is set to this operation
+			printf("Answer: %d - %d = %.1f\n", calc.firstNum, calc.secondNum, calc.answer); // Prints the Answer of the calculation
 			playCalc(NULL); // call the playCalc Function
 		}
 
-		else if (equationChoice == 3)
+		else if (calc.equationChoice == 3)
 		{
 			printf("What is your first number?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
+			scanf_s("%d", &calc.firstNum); //scans for the first number the user inputted
 			printf("What is your second number?: "); // Prompts User for an integer
-			scanf_s("%d", &secondNum); //scans for the second number the user inputted
-			answer = firstNum * secondNum; // answer is set to this operation
-			printf("Answer: %d * %d = %.1f\n", firstNum, secondNum, answer); // Prints the Answer of the calculation
+			scanf_s("%d", &calc.secondNum); //scans for the second number the user inputted
+			calc.answer = calc.firstNum * calc.secondNum; // answer is set to this operation
+			printf("Answer: %d * %d = %.1f\n", calc.firstNum, calc.secondNum, calc.answer); // Prints the Answer of the calculation
 			playCalc(NULL); // call the playCalc Function
 		}
 
-		else if (equationChoice == 4)
+		else if (calc.equationChoice == 4)
 		{
 			printf("What is your first number?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
+			scanf_s("%d", &calc.firstNum); //scans for the first number the user inputted
 			printf("What is your second number?: "); // Prompts User for an integer
-			scanf_s("%d", &secondNum); //scans for the second number the user inputted
-			answer = (float)firstNum / (float)secondNum; // answer is set to this operation
-			printf("Answer: %d / %d = %.1f\n", firstNum, secondNum, answer); // Prints the Answer of the calculation
+			scanf_s("%d", &calc.secondNum); //scans for the second number the user inputted
+			calc.answer = (float)calc.firstNum / (float)calc.secondNum; // answer is set to this operation
+			printf("Answer: %d / %d = %.1f\n", calc.firstNum, calc.secondNum, calc.answer); // Prints the Answer of the calculation
 			playCalc(NULL); // call the playCalc Function
 		}
 
-		else if (equationChoice == 5)
+		else if (calc.equationChoice == 5)
 		{
 			printf("What is the number you want to find the square root of?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
-			answer = sqrt(firstNum); // answer is set to this operation
-			printf("Answer: Square root of %d = %.1f\n", firstNum, answer); // Prints the Answer of the calculation
+			scanf_s("%d", &calc.firstNum); //scans for the first number the user inputted
+			calc.answer = sqrt(calc.firstNum); // answer is set to this operation
+			printf("Answer: Square root of %d = %.1f\n", calc.firstNum, calc.answer); // Prints the Answer of the calculation
 			playCalc(NULL); // call the playCalc Function
 		}
 
-		else if (equationChoice == 6)
+		else if (calc.equationChoice == 6)
 		{
 			printf("What is the number you would like to square?: "); // Prompts User for an integer
-			scanf_s("%d", &firstNum); //scans for the first number the user inputted
-			answer = firstNum * firstNum; // answer is set to this operation
-			printf("Answer: %d Squared = %.1f\n", firstNum, answer); // Prints the Answer of the calculation
+			scanf_s("%d", &calc.firstNum); //scans for the first number the user inputted
+			calc.answer = calc.firstNum * calc.firstNum; // answer is set to this operation
+			printf("Answer: %d Squared = %.1f\n", calc.firstNum, calc.answer); // Prints the Answer of the calculation
 			playCalc(NULL); // call the playCalc Function
 		}
 				
-	} while (playCalcAgain == 1); // If a user inputs '1' it will start this do while loop again.
+	} while (calc.playCalcAgain == 1); // If a user inputs '1' it will start this do while loop again.
 }
 		int playCalc(void)
 		{
+			union calculatorData calc;
 			printf("Would you like to do another calculation? (1 = Yes / 2 = Back to Main Menu): "); // Prompts the user if they would like to do another calculation
-			scanf_s("%d", &playCalcAgain); //Scans the user input if they would like to do another calculation or go back to main menu
+			scanf_s("%d", &calc.playCalcAgain); //Scans the user input if they would like to do another calculation or go back to main menu
 		}
 
